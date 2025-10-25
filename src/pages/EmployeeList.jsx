@@ -181,7 +181,7 @@ const EmployeeList = () => {
           </Table>
         ) : (
           // </div>
-          <div>No Employees Listed</div>
+          <div className="text-center "><h5 className="fw-bold text-danger mt-5">No Employees Listed</h5></div>
         )}
       </div>
 
