@@ -31,8 +31,7 @@ const EmployeeList = () => {
     setDeleteShow(true)
   }
 
-  let allEmployeesDummy=[]
-
+  const [deleteLoading,setDeleteLoading]=useState(false)
   const [searchKey,setSearchKey]=useState("")
 
   const [employeeId,setEmployeeId]=useState("")
@@ -95,8 +94,9 @@ const EmployeeList = () => {
   };
 
   const handleDeleteEmployee=async()=>{
-    console.log(employeeId)
-
+    // console.log(employeeId)
+    setDeleteLoading(true)
+    
     try {
         const res=await deleteEmployeeAPI(employeeId)
         if(res.status==201){
@@ -104,7 +104,9 @@ const EmployeeList = () => {
             getAllEMployees()
             handleDeleteModalClose()
         }
+        setDeleteLoading(false)
     } catch (error) {
+        setDeleteLoading(false)
         toast.error(error.message)
     }
   }
@@ -196,7 +198,7 @@ const EmployeeList = () => {
         <Modal.Body>
           <form
             action=""
-            className="d-flex flex-column gap-3 align-items-center"
+            className="d-flex flex-wrap justify-content-center gap-3 align-items-center"
           >
             <div className="form-div d-flex flex-column">
               <label htmlFor="">Name :</label>
@@ -205,17 +207,21 @@ const EmployeeList = () => {
                 onChange={(e) =>
                   setEmployeeData({ ...EmployeeData, name: e.target.value })
                 }
+                required
+                placeholder="Enter name"
                 className="form-input"
                 type="text"
               />
             </div>
             <div className="form-div d-flex flex-column">
-              <label htmlFor="">Email :</label>
+              <label className="fw-bold" htmlFor="">Email :</label>
               <input
                 value={EmployeeData.email}
                 onChange={(e) =>
                   setEmployeeData({ ...EmployeeData, email: e.target.value })
                 }
+                required
+                placeholder="Enter email"
                 className="form-input"
                 type="email"
               />
@@ -227,6 +233,8 @@ const EmployeeList = () => {
                 onChange={(e) =>
                   setEmployeeData({ ...EmployeeData, position: e.target.value })
                 }
+                required
+                placeholder="Enter position"
                 className="form-input"
                 type="text"
               />
@@ -241,6 +249,8 @@ const EmployeeList = () => {
                     department: e.target.value,
                   })
                 }
+                required
+                placeholder="Enter department"
                 className="form-input"
                 type="text"
               />
@@ -252,6 +262,8 @@ const EmployeeList = () => {
                 onChange={(e) =>
                   setEmployeeData({ ...EmployeeData, salary: e.target.value })
                 }
+                required
+                placeholder="Enter salary"
                 className="form-input"
                 type="number"
               />
@@ -292,10 +304,15 @@ const EmployeeList = () => {
           <Button variant="secondary" onClick={handleDeleteModalClose}>
             Cancel
           </Button>
-          
+          {
+            deleteLoading?
+            <div><Spinner animation="border" variant="danger" /></div>
+            :
           <Button variant="danger" onClick={handleDeleteEmployee}>
             Delete
           </Button>
+
+          }
         </Modal.Footer>
       </Modal>
     </>

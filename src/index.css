@@ -3,4 +3,7 @@
   border: none;
   border-bottom: 1px solid black;
   margin-bottom: 3px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  outline: none;
 }
